@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct CommunityConnectApp: App {
+    @StateObject private var loginStatus = LoginStatus() // Create LoginStatus as a StateObject
+ 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if loginStatus.isLoggedIn {
+                ContentView()
+                    .environmentObject(loginStatus) // Provide the LoginStatus object to ContentView
+            } else {
+                LoginScreen()
+                    .environmentObject(loginStatus) // Provide the LoginStatus object to ContentView
+            }
         }
     }
 }
+
