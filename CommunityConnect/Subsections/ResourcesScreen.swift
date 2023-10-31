@@ -76,35 +76,35 @@ struct MapView: View {
     @Binding var isLocationInfoVisible: Bool
 
     var body: some View {
-        Map(coordinateRegion: $selectedLocation != nil ? coordinateRegionForLocation(selectedLocation!) : initialRegion,
-            showsUserLocation: true,
-            userTrackingMode: .constant(selectedFacility == .animalShelter ? .follow : .none),
-            annotationItems: filteredLocations) { location in
-            Marker(coordinate: location.coordinate, tint: .blue) {
+        ZStack {
+            Map(coordinateRegion: $selectedLocation != nil ? .constant(coordinateRegionForLocation(selectedLocation!)) : .constant(initialRegion),
+                showsUserLocation: true,
+                userTrackingMode: .constant(selectedFacility == .animalShelter ? .follow : .none),
+                annotationItems: filteredLocations) { location in
                 MapPin(coordinate: location.coordinate, tint: .blue)
+                    
             }
-            .onTapGesture {
-                selectedLocation = location
-                isLocationInfoVisible = true
-            }
-        }
-        .overlay(
+
             ForEach(filteredLocations) { location in
                 Button(action: {
                     selectedLocation = location
                     isLocationInfoVisible = true
                 }) {
-                    Circle()
-                        .stroke(Color.blue, lineWidth: 2)
-                        .frame(width: 24, height: 24)
+                    Color.clear
                 }
-                .offset(x: 0, y: -12)
+                .buttonStyle(PlainButtonStyle())
+                .overlay(
+                    Circle().stroke(Color.blue, lineWidth: 2).frame(width: 24, height: 24),
+                    alignment: .center
+                )
+                .offset(x: 0, y: -12) // Adjust the offset to position the button correctly
                 .opacity(0.5)
             }
-        )
-        .background(
-            LocationInfoPopup(location: $selectedLocation, isLocationInfoVisible: $isLocationInfoVisible)
-        )
+            
+            if isLocationInfoVisible {
+                LocationInfoPopup(location: $selectedLocation, isLocationInfoVisible: $isLocationInfoVisible)
+            }
+        }
     }
 
     private var filteredLocations: [MapAnnotationItem] {
