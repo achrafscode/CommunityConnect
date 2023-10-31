@@ -47,8 +47,11 @@ struct LoginScreen: View {
                 NavigationLink("Sign Up", destination: RegistrationScreen(isLoggedIn: $loginStatus.isLoggedIn))
                     .padding()
                 
-                NavigationLink("Continue as Guest", destination: ContentView())
-                    .padding()
+                Button("Continue as Guest", action: {
+                    loginStatus.isLoggedIn = true // Skip the login process and set the user as logged in
+                })
+                .padding()
+
                 
             }
             .padding()
