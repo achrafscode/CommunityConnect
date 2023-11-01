@@ -5,7 +5,6 @@
 //  Created by Achraf Zemzami on 10/26/23.
 //
 import SwiftUI
-import Foundation
 
 class EventStore: ObservableObject {
     @Published var events: [Event] = []
@@ -18,6 +17,7 @@ class EventStore: ObservableObject {
 struct HomeScreen: View {
     @StateObject var eventStore = EventStore()
     @State private var isAddingEvent = false
+    @State private var userDonationAmount: Double = 0.0
 
     var body: some View {
         NavigationView {
@@ -29,14 +29,18 @@ struct HomeScreen: View {
 
                 Spacer()
 
-                Button("Create Event") {
-                    isAddingEvent.toggle()
-                }
-                .padding()
+                DonationSuggestionsView(userDonationAmount: $userDonationAmount)
+                
+                Spacer()
                 
                 List(eventStore.events, id: \.name) { event in
                     EventRow(event: event)
                 }
+
+                Button("Create Event") {
+                    isAddingEvent.toggle()
+                }
+                .padding()
             }
         }
         .background(Color.green)
@@ -46,26 +50,35 @@ struct HomeScreen: View {
     }
 }
 
-struct HomeButton: View {
-    var body: some View {
-        Button(action: {
-            // Action for the Home button
-        }) {
-            Label("Home", systemImage: "house")
-                .font(.custom("YourFontName", size: 15.4))
-                .foregroundColor(Color.green) // Change color to desired color
-
-        }
-        .padding()
-    }
-}
-
-/*struct HomeScreen_Previews: PreviewProvider {
+struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
         HomeScreen()
     }
 }
-*/
+
+struct DonationSuggestionsView: View {
+    @Binding var userDonationAmount: Double
+
+    var body: some View {
+        Section(header: Text("Donation Suggestions")) {
+            Text("Enter your budget:")
+            TextField("Budget", value: $userDonationAmount, formatter: NumberFormatter()) // Use NumberFormatter here
+                .textFieldStyle(PlainTextFieldStyle()) // Use PlainTextFieldStyle for no lines
+                .multilineTextAlignment(.center) // Center-align the text
+                .keyboardType(.decimalPad)
+
+            if userDonationAmount >= 20 {
+                Text("Suggested Donation: Canned Goods")
+            } else if userDonationAmount >= 10 {
+                Text("Suggested Donation: Canned Soups")
+            } else {
+                Text("Suggested Donation: Instant Noodles")
+            }
+        }
+    }
+}
+
+
 struct CreateEventView: View {
     @ObservedObject var eventStore: EventStore
 
@@ -100,7 +113,7 @@ struct Event: Identifiable {
 
 struct EventRow: View {
     let event: Event
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(event.name)
