@@ -7,23 +7,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab: Tab = .home
+
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             HomeScreen()
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
+                .tag(Tab.home)
 
             ResourcesScreen()
                 .tabItem {
                     Label("Resources", systemImage: "person.3")
                 }
+                .tag(Tab.resources)
 
             ManageScreen()
                 .tabItem {
                     Label("Manage", systemImage: "gear")
                 }
+                .tag(Tab.manage)
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
+}
+
+enum Tab {
+    case home, resources, manage
 }

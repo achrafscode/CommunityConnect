@@ -34,7 +34,7 @@ struct ResourcesScreen: View {
     @State private var isLocationInfoVisible = false
 
     var body: some View {
-        ResourcesButton()
+        //ResourcesButton()
         NavigationView {
             VStack {
                 TextField("Search Location", text: $searchText)

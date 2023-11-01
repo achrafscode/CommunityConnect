@@ -10,15 +10,19 @@ import Foundation
 struct HomeScreen: View {
     var body: some View {
         VStack {
-                    Spacer()
-                    HStack {
-                        HomeButton()
-                        ResourcesButton()
-                        ManageButton()
-                    }
-                }
+            Spacer()
+            HStack {
+                //HomeButton()
+                //ResourcesButton()
+                //ManageButton()
             }
+            Text("Hello") // Add this Text view
+                .font(.title)
+            Spacer()
         }
+    }
+}
+
 struct HomeButton: View {
     var body: some View {
         Button(action: {
