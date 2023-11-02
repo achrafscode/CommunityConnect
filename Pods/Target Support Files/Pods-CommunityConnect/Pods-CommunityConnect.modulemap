@@ -1,0 +1,6 @@
+framework module Pods_CommunityConnect {
+  umbrella header "Pods-CommunityConnect-umbrella.h"
+
+  export *
+  module * { export * }
+}

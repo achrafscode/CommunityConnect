@@ -8,6 +8,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab: Tab = .home
+    @State private var username: String = "" // Initialize with empty string
+    @State private var password: String = "" // Initialize with empty string
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -23,7 +25,7 @@ struct ContentView: View {
                 }
                 .tag(Tab.resources)
 
-            ManageScreen()
+            ManageScreen(username: $username, password: $password)
                 .tabItem {
                     Label("Manage", systemImage: "gear")
                 }

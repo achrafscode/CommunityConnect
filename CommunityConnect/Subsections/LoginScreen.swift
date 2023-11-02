@@ -7,6 +7,8 @@
 import SwiftUI
 import Foundation
 
+
+
 class LoginStatus: ObservableObject {
     @Published var isLoggedIn: Bool = false
 }
@@ -51,8 +53,7 @@ struct LoginScreen: View {
                     loginStatus.isLoggedIn = true // Skip the login process and set the user as logged in
                 })
                 .padding()
-
-                
+               
             }
             .padding()
             .navigationTitle("Login")
